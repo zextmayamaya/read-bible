@@ -17,13 +17,13 @@ server.on('request', (req,res) => {
     })
   }
 	const str = `
-		<h2>hello love</h2>
 		<p>
 		url is ${url}, method is ${method}
 		</p>
 	`
 	res.setHeader('Content-Type','text/html;charset=utf-8')
-	res.end(file)
+	res.write(file)
+	res.end()
 })
 
 server.listen(8080, () => {
