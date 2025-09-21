@@ -16,12 +16,7 @@ server.on('request', (req,res) => {
       file = data
     })
   }
-	const str = `
-		<p>
-		url is ${url}, method is ${method}
-		</p>
-	`
-	res.setHeader('Content-Type','text/html;charset=utf-8')
+	res.writeHeader(200,'Content-Type','text/html;charset=utf-8')
 	res.write(file)
 	res.end()
 })
