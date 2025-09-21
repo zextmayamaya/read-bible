@@ -12,7 +12,7 @@ server.on('request', (req,res) => {
       console.log(data)
       file = data
     }
-  }
+  })
 	const str = `
 		<h2>hello love</h2>
 		<p>
