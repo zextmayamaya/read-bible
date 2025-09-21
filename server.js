@@ -11,8 +11,8 @@ server.on('request', (req,res) => {
     fs.readFile("index.html", "utf8", (err, data) => {
       console.log(data)
       file = data
-    }
-  })
+    })
+  }
 	const str = `
 		<h2>hello love</h2>
 		<p>
