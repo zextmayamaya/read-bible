@@ -23,7 +23,7 @@ server.on('request', (req,res) => {
         })
     }
 
-    if(url === '/kaithhealth' && method === 'GET') {
+    if(url === '/kaithhealthcheck' && method === 'GET') {
         res.writeHead(200)
         res.end()
     }
