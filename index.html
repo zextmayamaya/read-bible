@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<script src="sort_by_years.js"></script>
-</head>
-<body>
-	<h1>index.html文件</h1>
-	<script>
-		console.log(daily_lection)
-	</script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="sort_by_years.js"></script>
+    </head>
+    <body>
+        <h1>index.html文件</h1>
+        <script>
+            console.log(daily_lection)
+
+            for(let i = 0; i < daily_lection.length; i++) {
+                console.log(daily_lection[i].day)
+            }
+            // 计算当天是当年的第几天
+            function getCurrentDayOfCurrentYear() {
+                // 当天的时间戳
+                const today = new Date()
+                // 当年的年份字符串
+                const firstDay = new Date().getFullYear().toString()
+                // 当年已经过去了多久,得到的是毫秒单位的长度
+                const time = today - new Date(firstDay)
+                // 一天的毫秒单位的长度
+                const oneDay = 24 * 60 * 60 * 1000
+                // 得到天数
+                return parseInt(time / oneDay)
+            }
+        </script>
+    </body>
 </html>
