@@ -23,6 +23,11 @@ server.on('request', (req,res) => {
         })
     }
 
+    if(url === '/favicon.ico') {
+        res.statusCode = 200
+        res.end("ok")
+    }
+
     if(url === '/kaithhealthcheck' && method === 'GET') {
         res.writeHead(200)
         res.end()
