@@ -60,12 +60,18 @@
             const today = new Date().toLocaleDateString()
             // 获得当天索引
             const index = getCurrentDayOfCurrentYear(today)
-
-            // 从数组中找到对应索引值
             const title = document.querySelector('#day')
             const content = document.querySelector('#lection')
-            title.textContent = today
-            content.textContent = daily_lection[index].lection
+
+            if(index < daily_lection.length) {
+                title.textContent = today
+                // 从数组中找到对应索引值
+                content.textContent = daily_lection[index].lection
+            } else {
+                title.textContent = "恭喜你已完成今年读经计划"
+                content.textContent = "可以找诗篇来读"
+
+            }
 
             // 返回给出的日期day是那一年的第几天，格式为：m/d/y
             function getCurrentDayOfCurrentYear(day) {
