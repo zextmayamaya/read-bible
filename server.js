@@ -17,10 +17,10 @@ server.on('request', (req,res) => {
             if(err) {
                 return console.log("read file error!!!", err.message)
             }
-            res.writeHeader(200,'Content-Type','text/html;charset=utf-8')
+            res.writeHead(200,'Content-Type','text/html;charset=utf-8')
             res.write(data)
+            res.end()
         })
-        res.end()
     }
 })
 
