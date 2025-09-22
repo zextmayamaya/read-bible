@@ -22,6 +22,12 @@ server.on('request', (req,res) => {
             res.end()
         })
     }
+
+    if(url === '/kaithhealth' && method === 'GET') {
+        res.writeHead(200)
+        res.end()
+    }
+
 })
 
 server.listen(8080, () => {
