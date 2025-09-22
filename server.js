@@ -7,11 +7,13 @@ const server = http.createServer()
 server.on('request', (req,res) => {
     const {url,method} = req
 
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.log("url is", url)
+    console.log("method is", method)
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
     if(url === '/' && method === 'GET') {
-        console.log("right access!!!")
         fs.readFile(path.join(__dirname, "./index.html"), "utf8", (err, data) => {
-            console.log("error is",err)
-            console.log("data is",data)
             if(err) {
                 return console.log("read file error!!!", err.message)
             }
