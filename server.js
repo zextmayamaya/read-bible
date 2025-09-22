@@ -28,6 +28,16 @@ server.on('request', (req,res) => {
         res.end()
     }
 
+    if(url === '/sort_by_years.js' && method === 'GET') {
+        fs.readFile(path.join(__dirname, './sort_by_years.js'), 'utf8', (err, data) => {
+            console.log(data)
+            if(err) return console.log("read sort_by_years.js file error:",err.message)
+            res.statusCode = 200
+            res.setHeader('Content-Type','text/html;charset=utf-8')
+            res.end(data)
+        })
+    }
+
 })
 
 server.listen(8080, () => {
