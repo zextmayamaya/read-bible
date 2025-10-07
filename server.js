@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 
 const server = http.createServer()
-const serverport = 3025
+const serverport = 3095
 
 server.on('request', (req,res) => {
     const {url,method} = req
@@ -18,16 +18,19 @@ server.on('request', (req,res) => {
             res.write(data)
             res.end()
         })
+        return
     }
 
     if(url === '/favicon.ico') {
         res.statusCode = 200
         res.end("ok")
+        return
     }
 
     if(url === '/kaithhealthcheck' && method === 'GET') {
-        res.writeHead(200)
-        res.end()
+        res.writeHead(200, { 'Content-Type': 'text/plain' })
+        res.end('ok')
+        return
     }
 
     if(url === '/sort_by_years.js' && method === 'GET') {
@@ -39,10 +42,10 @@ server.on('request', (req,res) => {
             res.end(data)
         })
     }
-
+    return
 })
 
-console.log(serverport)
-server.listen(serverport, () => {
+// console.log(serverport)
+server.listen(serverport, '0.0.0.0', () => {
     console.log(`server is running ${serverport}`)
 })
