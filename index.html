@@ -1,293 +1,327 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="sort_by_years.js"></script>
-</head>
-<body>
-    <style> 
-        * {
-            margin: 0;
-            padding: 0; 
-        }
-        body {
-            background-color: gold;
-        }
-        div#content {
-            z-index: 10;
-            width: 320px;
-            height: 480px;  
-            box-sizing: border-box;
-            position: absolute; 
-            top: calc(50% - 240px); 
-            left: calc(50% - 160px);
-            box-shadow: 0 5px 15px gray;
-
-            #day, #lection {
-                width: 100%;
-                text-align: center;    
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="sort_by_years.js"></script>
+        <script src="daily_recite.js"></script>
+    </head>
+    <body>
+        <style> 
+            * {
+                margin: 0;
+                padding: 0; 
             }
-
-            #day {
-                height: 120px;   
-                line-height: 120px;    
-                color: yellowgreen;
-                background-color: green;
+            body {
+                background-color: gold;
             }
-            #lection {
-                height: 360px; 
-                font-size: 48px;
-                color: green;  
-                background-color: yellowgreen;
+            div#content {
+                z-index: 10;
+                width: 320px;
+                height: 480px;  
+                box-sizing: border-box;
+                position: absolute; 
+                top: calc(50% - 240px); 
+                left: calc(50% - 160px);
+                box-shadow: 0 5px 15px gray;
 
-                &::before {
-                    content: "今天经文";
+                #day, #lection {
+                    width: 100%;
+                    text-align: center;    
+                }
+
+                #day {
                     height: 120px;   
-                    display: block;
-                    font-size: 24px;
-                    line-height: 120px;      
+                    line-height: 120px;    
+                    color: yellowgreen;
+                    background-color: green;
                 }
-                &::after {
-                    content: "年代顺序读经计划";
-                    display: block;
-                    font-size: 12px;
-                    line-height: 30px;
-                    color: gray;
+                #lection {
+                    height: 360px; 
+                    font-size: 48px;
+                    color: green;  
+                    background-color: yellowgreen;
+
+                    &::before {
+                        content: "今天经文";
+                        height: 120px;   
+                        display: block;
+                        font-size: 24px;
+                        line-height: 120px;      
+                    }
+                    &::after {
+                        content: "年代顺序读经计划";
+                        display: block;
+                        font-size: 12px;
+                        line-height: 30px;
+                        color: gray;
+                    }
                 }
             }
-        }
-        #tag {
-            z-index: 20;
-            position: absolute;
-            top: 0;
-            left: calc(50% - 160px);
-            width: 320px;
-            height: 50px;
-            border-radius: 0 0 25px 25px;
-            background-color: green;
-            text-align: center;
+            #tag {
+                z-index: 20;
+                position: absolute;
+                top: 0;
+                left: calc(50% - 160px);
+                width: 320px;
+                height: 50px;
+                border-radius: 0 0 25px 25px;
+                background-color: green;
+                text-align: center;
 
-            span {
-                padding: 1em;
-                font-size: 24px;
-                line-height: 40px;
+                span {
+                    padding: 1em;
+                    font-size: 24px;
+                    line-height: 40px;
+                    color: yellowgreen;
+                    font: 24px/40px '微软雅黑';
+
+                    &:hover {
+                        color: gold;
+                        cursor: pointer;
+                    }
+                }
+            }
+            #tableO, #tableN {
+                display: none;
+                z-index: 15;
+                width: 100vw;
+                height: 100vh;
+                position: absolute;
+                background-color: lightyellow;
+                overflow-y: scroll;
+
+                table, 
+                table td,
+                table th{
+                    border-bottom: 1px dotted darkgoldenrod;
+                    border-collapse: collapse;
+                    color: green;
+                    padding: 0.5em;
+                }
+                table{
+                    margin: 60px auto 0;
+                    width: 300px;
+                    overflow-y: scroll;
+                    font-size: 20px;
+                }
+                tr:hover{
+                    background-color: yellow;
+                }
+                th{
+                    /*background-color: yellowgreen;*/
+                    font-size: 22px;
+                }
+            }
+            #tableO.show, #tableN.show, #close.show {
+                display: block;
+            }
+            #close {
+                z-index: 15;
+                display: none;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+            /* 背诵 */
+            #recite {
+                position: absolute;
+                bottom: 0;
+                left: calc(50% - 160px);
+                width: 320px;
+                min-height: 50px;
+                box-sizing: border-box;
+                text-align: center;
+                font: 24px/50px '微软雅黑';
+                border-radius: 25px 25px 0 0;
+                background-color: green;
+                z-index: 1;
                 color: yellowgreen;
-                font: 24px/40px '微软雅黑';
+                cursor: pointer;
 
                 &:hover {
                     color: gold;
-                    cursor: pointer;
                 }
             }
-        }
-        #tableO, #tableN {
-            display: none;
-            z-index: 15;
-            width: 100vw;
-            height: 100vh;
-            position: absolute;
-            background-color: lightyellow;
-            overflow-y: scroll;
+        </style>
+        <div id="content">
+            <h1 id="day"></h1>
+            <h1 id="lection"></h1>
+        </div>
+        <div id="tag">
+            <span>旧约</span><span>新约</span>
+        </div>
 
-            table, 
-            table td,
-            table th{
-                border-bottom: 1px dotted darkgoldenrod;
-                border-collapse: collapse;
-                color: green;
-                padding: 0.5em;
-            }
-            table{
-                margin: 60px auto 0;
-                width: 300px;
-                overflow-y: scroll;
-                font-size: 20px;
-            }
-            tr:hover{
-                background-color: yellow;
-            }
-            th{
-                /*background-color: yellowgreen;*/
-                font-size: 22px;
-            }
-        }
-        #tableO.show, #tableN.show, #close.show {
-            display: block;
-        }
-        #close {
-            z-index: 15;
-            display: none;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-    </style>
-    <div id="content">
-        <h1 id="day"></h1>
-        <h1 id="lection"></h1>
-    </div>
-    <div id="tag">
-        <span>旧约</span><span>新约</span>
-    </div>
-    <div id="tableO">
-        <table>
-            <tr><th>序</th><th>全称</th><th>缩写</th></tr>
-            <tr><td>1</td><td>创世纪</td><td> 创</td></tr>
-            <tr><td>2</td><td>出埃及记</td><td> 出</td></tr>
-            <tr><td>3</td><td>利未记</td><td> 利</td></tr>
-            <tr><td>4</td><td>民数记</td><td> 民</td></tr>
-            <tr><td>5</td><td>申命记</td><td> 申</td></tr>
-            <tr><td>6</td><td>约书亚记</td><td> 书</td></tr>
-            <tr><td>7</td><td>士师记</td><td> 士</td></tr>
-            <tr><td>8</td><td>路得记</td><td> 得</td></tr>
-            <tr><td>9</td><td>撒母耳记上</td><td> 撒上</td></tr>
-            <tr><td>10</td><td>撒母耳记下</td><td> 撒下</td></tr>
-            <tr><td>11</td><td>列王纪上</td><td> 王上</td></tr>
-            <tr><td>12</td><td>列王纪下</td><td> 王下</td></tr>
-            <tr><td>13</td><td>历代志上</td><td> 代上</td></tr>
-            <tr><td>14</td><td>历代志下</td><td> 代下</td></tr>
-            <tr><td>15</td><td>以斯拉书</td><td> 拉</td></tr>
-            <tr><td>16</td><td>尼希米记</td><td> 尼</td></tr>
-            <tr><td>17</td><td>以斯帖记</td><td> 斯</td></tr>
-            <tr><td>18</td><td>约伯记</td><td> 伯</td></tr>
-            <tr><td>19</td><td>诗篇</td><td> 诗</td></tr>
-            <tr><td>20</td><td>箴言</td><td> 箴</td></tr>
-            <tr><td>21</td><td>传道书</td><td> 传</td></tr>
-            <tr><td>22</td><td>雅歌</td><td> 歌</td></tr>
-            <tr><td>23</td><td>以赛亚书</td><td> 赛</td></tr>
-            <tr><td>24</td><td>耶利米书</td><td> 耶</td></tr>
-            <tr><td>25</td><td>耶利米哀歌</td><td> 哀</td></tr>
-            <tr><td>26</td><td>以西结书</td><td> 结</td></tr>
-            <tr><td>27</td><td>但以理书</td><td> 但</td></tr>
-            <tr><td>28</td><td>何西阿书</td><td> 何</td></tr>
-            <tr><td>29</td><td>约珥书</td><td> 珥</td></tr>
-            <tr><td>30</td><td>阿摩司书</td><td> 摩</td></tr>
-            <tr><td>31</td><td>俄巴底亚书</td><td> 俄</td></tr>
-            <tr><td>32</td><td>约拿书</td><td> 拿</td></tr>
-            <tr><td>33</td><td>弥迦书</td><td> 弥</td></tr>
-            <tr><td>34</td><td>那鸿书</td><td> 鸿</td></tr>
-            <tr><td>35</td><td>哈巴谷书</td><td> 哈</td></tr>
-            <tr><td>36</td><td>西番雅书</td><td> 番</td></tr>
-            <tr><td>37</td><td>哈该书</td><td> 该</td></tr>
-            <tr><td>38</td><td>撒加利亚书</td><td> 亚</td></tr>
-            <tr><td>39</td><td>玛拉基书</td><td> 玛</td></tr>
-        </table>
-    </div>
-    <div id="tableN">
-        <table>
-            <tr><th>序</th><th>全称</th><th>缩写</th></tr>
-            <tr><td>1</td><td>马太福音</td><td> 太</td></tr>
-            <tr><td>2</td><td>马可福音</td><td> 可</td></tr>
-            <tr><td>3</td><td>路加福音</td><td> 路</td></tr>
-            <tr><td>4</td><td>约翰福音</td><td> 约</td></tr>
-            <tr><td>5</td><td>使徒行传</td><td> 徒</td></tr>
-            <tr><td>6</td><td>罗马书</td><td> 罗</td></tr>
-            <tr><td>7</td><td>哥林多前书</td><td> 林前</td></tr>
-            <tr><td>8</td><td>哥林多后书</td><td> 林后</td></tr>
-            <tr><td>9</td><td>加拉太书</td><td> 加</td></tr>
-            <tr><td>10</td><td>以弗所书</td><td> 弗</td></tr>
-            <tr><td>11</td><td>腓力比书</td><td> 腓</td></tr>
-            <tr><td>12</td><td>歌罗西书</td><td> 西</td></tr>
-            <tr><td>13</td><td>帖撒罗尼迦前书</td><td> 帖前</td></tr>
-            <tr><td>14</td><td>帖撒罗尼迦后书</td><td> 帖后</td></tr>
-            <tr><td>15</td><td>提摩太前书</td><td> 提前</td></tr>
-            <tr><td>16</td><td>提摩太后书</td><td> 提后</td></tr>
-            <tr><td>17</td><td>提多书</td><td> 多</td></tr>
-            <tr><td>18</td><td>腓利门书</td><td> 门</td></tr>
-            <tr><td>19</td><td>希伯来书</td><td> 来</td></tr>
-            <tr><td>20</td><td>雅各书</td><td> 雅</td></tr>
-            <tr><td>21</td><td>彼得前书</td><td> 彼前</td></tr>
-            <tr><td>22</td><td>彼得后书</td><td> 彼后</td></tr>
-            <tr><td>23</td><td>约翰一书</td><td> 约壹</td></tr>
-            <tr><td>24</td><td>约翰二书</td><td> 约貳</td></tr>
-            <tr><td>25</td><td>约翰三书</td><td> 约叁</td></tr>
-            <tr><td>26</td><td>犹大书</td><td> 犹</td></tr>
-            <tr><td>27</td><td>启示录</td><td> 启</td></tr>
-        </table>
-    </div>
-    <div id="close">×</div>
-    <script>
-        ;(function () {
+        <div id="recite">背诵</div>
 
-            // 获得当天的日期
-            const today = new Date().toLocaleDateString()
-            // 获得当天索引
-            const index = getCurrentDayOfCurrentYear(today)
-            const title = document.querySelector('#day')
-            const content = document.querySelector('#lection')
+        <div id="tableO">
+            <table>
+                <tr><th>序</th><th>全称</th><th>缩写</th></tr>
+                <tr><td>1</td><td>创世纪</td><td> 创</td></tr>
+                <tr><td>2</td><td>出埃及记</td><td> 出</td></tr>
+                <tr><td>3</td><td>利未记</td><td> 利</td></tr>
+                <tr><td>4</td><td>民数记</td><td> 民</td></tr>
+                <tr><td>5</td><td>申命记</td><td> 申</td></tr>
+                <tr><td>6</td><td>约书亚记</td><td> 书</td></tr>
+                <tr><td>7</td><td>士师记</td><td> 士</td></tr>
+                <tr><td>8</td><td>路得记</td><td> 得</td></tr>
+                <tr><td>9</td><td>撒母耳记上</td><td> 撒上</td></tr>
+                <tr><td>10</td><td>撒母耳记下</td><td> 撒下</td></tr>
+                <tr><td>11</td><td>列王纪上</td><td> 王上</td></tr>
+                <tr><td>12</td><td>列王纪下</td><td> 王下</td></tr>
+                <tr><td>13</td><td>历代志上</td><td> 代上</td></tr>
+                <tr><td>14</td><td>历代志下</td><td> 代下</td></tr>
+                <tr><td>15</td><td>以斯拉书</td><td> 拉</td></tr>
+                <tr><td>16</td><td>尼希米记</td><td> 尼</td></tr>
+                <tr><td>17</td><td>以斯帖记</td><td> 斯</td></tr>
+                <tr><td>18</td><td>约伯记</td><td> 伯</td></tr>
+                <tr><td>19</td><td>诗篇</td><td> 诗</td></tr>
+                <tr><td>20</td><td>箴言</td><td> 箴</td></tr>
+                <tr><td>21</td><td>传道书</td><td> 传</td></tr>
+                <tr><td>22</td><td>雅歌</td><td> 歌</td></tr>
+                <tr><td>23</td><td>以赛亚书</td><td> 赛</td></tr>
+                <tr><td>24</td><td>耶利米书</td><td> 耶</td></tr>
+                <tr><td>25</td><td>耶利米哀歌</td><td> 哀</td></tr>
+                <tr><td>26</td><td>以西结书</td><td> 结</td></tr>
+                <tr><td>27</td><td>但以理书</td><td> 但</td></tr>
+                <tr><td>28</td><td>何西阿书</td><td> 何</td></tr>
+                <tr><td>29</td><td>约珥书</td><td> 珥</td></tr>
+                <tr><td>30</td><td>阿摩司书</td><td> 摩</td></tr>
+                <tr><td>31</td><td>俄巴底亚书</td><td> 俄</td></tr>
+                <tr><td>32</td><td>约拿书</td><td> 拿</td></tr>
+                <tr><td>33</td><td>弥迦书</td><td> 弥</td></tr>
+                <tr><td>34</td><td>那鸿书</td><td> 鸿</td></tr>
+                <tr><td>35</td><td>哈巴谷书</td><td> 哈</td></tr>
+                <tr><td>36</td><td>西番雅书</td><td> 番</td></tr>
+                <tr><td>37</td><td>哈该书</td><td> 该</td></tr>
+                <tr><td>38</td><td>撒加利亚书</td><td> 亚</td></tr>
+                <tr><td>39</td><td>玛拉基书</td><td> 玛</td></tr>
+            </table>
+        </div>
+        <div id="tableN">
+            <table>
+                <tr><th>序</th><th>全称</th><th>缩写</th></tr>
+                <tr><td>1</td><td>马太福音</td><td> 太</td></tr>
+                <tr><td>2</td><td>马可福音</td><td> 可</td></tr>
+                <tr><td>3</td><td>路加福音</td><td> 路</td></tr>
+                <tr><td>4</td><td>约翰福音</td><td> 约</td></tr>
+                <tr><td>5</td><td>使徒行传</td><td> 徒</td></tr>
+                <tr><td>6</td><td>罗马书</td><td> 罗</td></tr>
+                <tr><td>7</td><td>哥林多前书</td><td> 林前</td></tr>
+                <tr><td>8</td><td>哥林多后书</td><td> 林后</td></tr>
+                <tr><td>9</td><td>加拉太书</td><td> 加</td></tr>
+                <tr><td>10</td><td>以弗所书</td><td> 弗</td></tr>
+                <tr><td>11</td><td>腓力比书</td><td> 腓</td></tr>
+                <tr><td>12</td><td>歌罗西书</td><td> 西</td></tr>
+                <tr><td>13</td><td>帖撒罗尼迦前书</td><td> 帖前</td></tr>
+                <tr><td>14</td><td>帖撒罗尼迦后书</td><td> 帖后</td></tr>
+                <tr><td>15</td><td>提摩太前书</td><td> 提前</td></tr>
+                <tr><td>16</td><td>提摩太后书</td><td> 提后</td></tr>
+                <tr><td>17</td><td>提多书</td><td> 多</td></tr>
+                <tr><td>18</td><td>腓利门书</td><td> 门</td></tr>
+                <tr><td>19</td><td>希伯来书</td><td> 来</td></tr>
+                <tr><td>20</td><td>雅各书</td><td> 雅</td></tr>
+                <tr><td>21</td><td>彼得前书</td><td> 彼前</td></tr>
+                <tr><td>22</td><td>彼得后书</td><td> 彼后</td></tr>
+                <tr><td>23</td><td>约翰一书</td><td> 约壹</td></tr>
+                <tr><td>24</td><td>约翰二书</td><td> 约貳</td></tr>
+                <tr><td>25</td><td>约翰三书</td><td> 约叁</td></tr>
+                <tr><td>26</td><td>犹大书</td><td> 犹</td></tr>
+                <tr><td>27</td><td>启示录</td><td> 启</td></tr>
+            </table>
+        </div>
+        <div id="close">×</div>
+        <script>
+            ;(function () {
 
-            if(index < daily_lection.length) {
-                title.textContent = today
-                // 从数组中找到对应索引值
-                content.textContent = daily_lection[index].lection
-            } else {
-                title.textContent = "恭喜你已完成今年读经计划"
-                content.textContent = "可以找诗篇来读"
+                // 获得当天的日期
+                const today = new Date().toLocaleDateString()
+                // 获得当天索引
+                const index = getCurrentDayOfCurrentYear(today)
+                const title = document.querySelector('#day')
+                const content = document.querySelector('#lection')
+                const recite = document.querySelector('#recite')
 
-            }
+                if(index < daily_lection.length) {
+                    title.textContent = today
+                    // 从数组中找到对应索引值
+                    // 获取读经内容
+                    content.textContent = daily_lection[index].lection
+                } else {
+                    title.textContent = "恭喜你已完成今年读经计划"
+                    content.textContent = "可以找诗篇来读"
+                }
 
-            // 返回给出的日期day是那一年的第几天，格式为：m/d/y
-            function getCurrentDayOfCurrentYear(day) {
-                const today = new Date(day)
-                const firstDay = new Date(today.getFullYear(),0,1)
-                const time = today.getTime() - firstDay.getTime()
-                const oneDay = 24 * 60 * 60 * 1000
-                return parseInt(time / oneDay)
-            }
-        })();
+                // 获取背诵经文
+                const today_recite = daily_lections[index].lection
+                recite.addEventListener('click', (e) => {
 
-        // 显示缩写对照表
-        ;(function () {
-            // 获取按钮
-            // 获取表格
-            // 初始化隐藏表格容器
-            const tag = document.querySelector('#tag')
-            const tableO = document.querySelector('#tableO')
-            const tableN = document.querySelector('#tableN')
-            const exit = document.querySelector('#close')
+                    if(recite.textContent == "背诵") {
+                        recite.textContent = today_recite
+                    } else {
+                        recite.textContent = "背诵"
+                    }
+                })
 
-            // 显示缩写表
-            tag.addEventListener('click', (e) => {
-                // console.log(tableO.classList.contains('show'))
+                // 返回给出的日期day是那一年的第几天，格式为：m/d/y
+                function getCurrentDayOfCurrentYear(day) {
+                    const today = new Date(day)
+                    const firstDay = new Date(today.getFullYear(),0,1)
+                    const time = today.getTime() - firstDay.getTime()
+                    const oneDay = 24 * 60 * 60 * 1000
+                    return parseInt(time / oneDay)
+                }
+            })();
 
-                if(e.target.tagName === 'SPAN') {
-                    if(tableO.classList.contains('show')) {
-                        tableO.classList.remove('show')
-                    } else if(tableN.classList.contains('show')) {
-                        tableN.classList.remove('show')
+            // 显示缩写对照表
+            ;(function () {
+                // 获取按钮
+                // 获取表格
+                // 初始化隐藏表格容器
+                const tag = document.querySelector('#tag')
+                const tableO = document.querySelector('#tableO')
+                const tableN = document.querySelector('#tableN')
+                const exit = document.querySelector('#close')
+
+                // 显示缩写表
+                tag.addEventListener('click', (e) => {
+
+                    if(e.target.tagName === 'SPAN') {
+                        if(tableO.classList.contains('show')) {
+                            tableO.classList.remove('show')
+                        } else if(tableN.classList.contains('show')) {
+                            tableN.classList.remove('show')
+                        }
+
+                        // 调用函数，设置当前标签表格显示
+                        setCurrentTag(e.target.innerText)
+                    }
+                })
+
+                // 关闭缩写表
+                exit.addEventListener('click', () => {
+                    exit.classList.remove('show')
+                    tableO.classList.remove('show')
+                    tableN.classList.remove('show')
+                })
+
+                // 只设置当前标签页显示
+                function setCurrentTag(tag) {
+                    tableO.classList.remove('show')
+                    tableN.classList.remove('show')
+
+                    if(tag === '新约') {
+                        tableN.classList.add('show')
+                    } else {
+                        tableO.classList.add('show')
                     }
 
-                    // 调用函数，设置当前标签表格显示
-                    setCurrentTag(e.target.innerText)
+                    exit.classList.add('show')
                 }
 
-            })
-
-            // 关闭缩写表
-            exit.addEventListener('click', () => {
-                exit.classList.remove('show')
-                tableO.classList.remove('show')
-                tableN.classList.remove('show')
-            })
-
-            // 只设置当前标签页显示
-            function setCurrentTag(tag) {
-                tableO.classList.remove('show')
-                tableN.classList.remove('show')
-
-                if(tag === '新约') {
-                    tableN.classList.add('show')
-                } else {
-                    tableO.classList.add('show')
-                }
-
-                exit.classList.add('show')
-            }
-
-        })();
-    </script>
-</body>
-</html>
+            })();
+        </script>
+    </body>
+    </html>

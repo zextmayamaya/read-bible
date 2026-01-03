@@ -27,6 +27,7 @@ server.on('request', (req,res) => {
         return
     }
 
+    // 主要用于 leapcell 的验证
     if(url === '/kaithhealthcheck' && method === 'GET') {
         res.writeHead(200, { 'Content-Type': 'text/plain' })
         res.end('ok')
@@ -45,7 +46,6 @@ server.on('request', (req,res) => {
     return
 })
 
-// console.log(serverport)
 server.listen(serverport, '0.0.0.0', () => {
     console.log(`server is running ${serverport}`)
 })
