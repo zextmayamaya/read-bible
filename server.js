@@ -21,7 +21,7 @@ server.on('request', (req,res) => {
         return
     }
 
-    if(url === '/favicon.ico') {
+    if(method === 'GET' && url === '/favicon.ico') {
         res.statusCode = 200
         res.end("ok")
         return
